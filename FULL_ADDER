@@ -1,0 +1,67 @@
+///////////////full adder my ///////////////////
+module fu_adder_my (
+    input a,
+    input b,
+    input cin,
+    output sum,
+    output carry
+);
+    wire sum1, carry1, sum2, carry2;
+
+    hf_adder_my U_HF1(
+    .a(a),
+    .b(b),
+    .sum(sum1),
+    .carry(carry1)
+    );
+    hf_adder_my U_HF2(
+    .a(sum1),
+    .b(cin),
+    .sum(sum2),
+    .carry(carry2)
+    );
+
+    assign sum = sum2;
+    assign carry = carry1 | carry2;   
+endmodule
+
+module hf_adder_my(
+    input a,
+    input b,
+    output sum,
+    output carry
+    );
+
+    assign sum = a ^ b;
+    assign carry = a & b;
+endmodule
+
+////////////////// tb_full_adder_my////////////////////
+module tb_adder_my ();
+    reg  a;
+    reg  b;
+    reg  cin;
+    wire sum;
+    wire carry;
+
+    fu_adder_my U_FU(
+    .a(a),
+    .b(b),
+    .cin(cin),
+    .sum(sum),
+    .carry(carry)
+);
+
+    initial begin
+        #00 a = 1'b0; b = 1'b0; cin = 1'b0;
+        #10 a = 1'b0; b = 1'b0; cin = 1'b1;
+        #10 a = 1'b0; b = 1'b1; cin = 1'b0;
+        #10 a = 1'b0; b = 1'b1; cin = 1'b1;
+        #10 a = 1'b1; b = 1'b0; cin = 1'b0;
+        #10 a = 1'b1; b = 1'b0; cin = 1'b1;
+        #10 a = 1'b1; b = 1'b1; cin = 1'b0;
+        #10 a = 1'b1; b = 1'b1; cin = 1'b1;
+
+        #10 $finish;
+    end
+endmodule
