@@ -1,0 +1,36 @@
+//////////hf_adder////////
+
+module hf_adder_my(
+    input a,
+    input b,
+    output sum,
+    output carry
+    );
+
+    assign sum = a ^ b;
+    assign carry = a & b;
+endmodule
+
+
+////////tb_hf_adder//////
+module tb_adder_my ();
+    reg  a;
+    reg  b;
+    wire sum;
+    wire carry;
+
+    hf_adder_my U_hf_my (
+        .a(a),
+        .b(b),
+        .sum(sum),
+        .carry(carry)
+    );
+
+    initial begin
+        #00 a = 0; b = 0;
+        #10 a = 0; b = 1;
+        #10 a = 1; b = 0;
+        #10 a = 1; b = 1;
+        #10 $finish;
+    end
+endmodule
